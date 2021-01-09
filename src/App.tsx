@@ -1,11 +1,15 @@
-import React from 'react'
+import { Base, Main } from './App.styles'
+import FormWrapper from './components/FormWrapper'
+import ResultsWrapper from './components/ResultsWrapper'
 
-function App () {
-  const vapo = 'vapo'
+function App() {
   return (
-    <div className="App">
-     <p>{vapo}</p>
-    </div>
+    <Base>
+      <Main>
+        <FormWrapper />
+        <ResultsWrapper />
+      </Main>
+    </Base>
   )
 }
 
