@@ -1,41 +1,51 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Title, Wrapper, ErrorMessage } from './FormWrapper.styles'
 import Input from './components/Input'
+import { AnticipationParams } from '../hooks/useAnticipation'
 
-type AntecipacaoForm = {
-  salePrice: string,
+type AnticipationForm = {
+  amount: string,
   installments: number,
   mdr: number
 }
 
-export default function FormWrapper() {
+type FormWrapperProps = {
+  handleFetch: (params: AnticipationParams) => void,
+  periods: Array<string>
+}
+
+export default function FormWrapper({ handleFetch, periods }: FormWrapperProps) {
   const {
     register,
     handleSubmit,
     watch,
     errors
-  } = useForm<AntecipacaoForm>()
+  } = useForm<AnticipationForm>()
 
   function formatCurrencyToNumber(currency: string): number {
     return Number(currency.substring(3).replace(/\./g, '').replace(',', '.'))
   }
 
-  const onSubmit = handleSubmit(({ salePrice, installments, mdr }) => {
-    console.log({ salePrice, installments, mdr })
+  const onSubmit = handleSubmit(({ amount, installments, mdr }) => {
+    const formattedAmount = formatCurrencyToNumber(amount)
+    const params: AnticipationParams = {
+      amount: formattedAmount,
+      installments,
+      mdr,
+      days: periods
+    }
+    handleFetch(params)
   })
 
   const handleOnChange = () => {
-    const { salePrice, installments, mdr } = watch()
+    const { amount, installments, mdr } = watch()
 
-    const salePriceFormatted = formatCurrencyToNumber(salePrice)
+    const salePriceFormatted = formatCurrencyToNumber(amount)
 
     if (salePriceFormatted && installments && mdr) {
       onSubmit()
     }
   }
-
-  useEffect(() => { console.log({ errors }) }, [errors])
 
   return (
     <Wrapper>
@@ -43,7 +53,7 @@ export default function FormWrapper() {
         <Title>Simule sua Antecipação</Title>
 
         <Input
-          name='salePrice'
+          name='amount'
           label='Informe o valor da venda'
           ref={register({ required: true })}
           onChange={handleOnChange}
@@ -63,7 +73,7 @@ export default function FormWrapper() {
           label='Informe o percentual de MDR'
           ref={register({ required: true })}
           onChange={handleOnChange}
-          type="number"
+          type="tel"
           required />
       </form>
       {Object.keys(errors).length ? <ErrorMessage>Formulário preenchido incorretamente</ErrorMessage> : null}
