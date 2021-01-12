@@ -1,7 +1,7 @@
 import { forwardRef, FormEvent } from 'react'
 import { Label, Input as StyledInput, HelperText, Wrapper } from './Input.styles'
 
-type InputProps = {
+export type InputProps = {
   label: string,
   name: string,
   onChange: () => void,
@@ -9,7 +9,6 @@ type InputProps = {
   helperText?: string,
   required?: boolean,
   type: string
-
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>((
@@ -41,7 +40,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((
 
   return (
     <Wrapper>
-      <Label htmlFor={name}>
+      <Label data-testid="label" htmlFor={name}>
         {label} {required ? '*' : null}
         <StyledInput
           id={name}
