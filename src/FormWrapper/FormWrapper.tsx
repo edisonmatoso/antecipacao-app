@@ -11,10 +11,13 @@ type AnticipationForm = {
 
 type FormWrapperProps = {
   handleFetch: (params: AnticipationParams) => void,
-  periods: Array<string>
+  isInternalError: Boolean,
+  isTimeouted: Boolean,
+  loading: Boolean,
+  periods: Array<string>,
 }
 
-export default function FormWrapper({ handleFetch, periods }: FormWrapperProps) {
+export default function FormWrapper({ handleFetch, isInternalError, isTimeouted, loading, periods }: FormWrapperProps) {
   const {
     register,
     handleSubmit,
@@ -77,6 +80,9 @@ export default function FormWrapper({ handleFetch, periods }: FormWrapperProps) 
           required />
       </form>
       {Object.keys(errors).length ? <ErrorMessage>Formulário preenchido incorretamente</ErrorMessage> : null}
+      {isTimeouted && <ErrorMessage>Servidor demorou para responder</ErrorMessage>}
+      {isInternalError && <ErrorMessage>Ocorreu algo de errado no servidor</ErrorMessage>}
+      {loading && '⌛'}
     </Wrapper>
   )
 }
