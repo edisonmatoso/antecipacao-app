@@ -1,0 +1,29 @@
+name: Main
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm i -g yarn
+    - run: yarn
+    - run: yarn test
+    - run: yarn build
+      env:
+        CI: true
+    - name: Netlify
+      run: curl -X POST -d {} https://api.netlify.com/build_hooks/5ffe3a4b9a652f250e486b0e
