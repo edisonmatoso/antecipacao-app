@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/92ccedc0-8067-44d9-8039-6c88b6c8ae05/deploy-status)](pensive-gates-bd8c45.netlify.app)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/92ccedc0-8067-44d9-8039-6c88b6c8ae05/deploy-status)](https://pensive-gates-bd8c45.netlify.app)
 # antecipacao-app
 The app uses a fake api that simulates how much it would cost to anticipate a financial transaction.
 
